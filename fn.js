@@ -36,7 +36,7 @@ $$(".rw").forEach(function(b){b.addEventListener("click",function(){var o=b.getA
 
 /* ---------- language ---------- */
 var lb=$(".lng");
-if(lb){
+if(lb&&R.hasAttribute("data-i18n")){
   R.classList.add("i18n");
   var items=$$("[data-en]");items.forEach(function(e){e.setAttribute("data-ar",e.tagName==="INPUT"?"":e.innerHTML)});
   var ph=$$("[data-en-ph]");ph.forEach(function(e){e.setAttribute("data-ar-ph",e.getAttribute("placeholder")||"")});
@@ -50,7 +50,7 @@ if(lb){
     try{localStorage.setItem("fn-lang",l)}catch(e){}}
   lb.addEventListener("click",function(){setLang(window.mzLang==="en"?"ar":"en")});
   var q=/[?&]lang=(en|ar)/.exec(location.search),sv=null;try{sv=localStorage.getItem("fn-lang")}catch(e){}
-  var st=q?q[1]:(sv==="en"?"en":"ar");if(st==="en")setLang("en");else lb.textContent="EN";
+  var st=q?q[1]:(sv==="ar"?"ar":"en");if(st==="en")setLang("en");else lb.textContent="EN";
 }
 
 /* ---------- visit counter ---------- */
