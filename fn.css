@@ -269,3 +269,10 @@ html:not(.i18n) .lng{display:none}
 .rb a:hover{background:var(--au);border-color:var(--au);color:var(--ch)}
 .bl i{display:inline-block;align-self:flex-start;padding:9px 18px;border:1px solid var(--au);color:var(--ch);background:var(--au)}
 .bl a:hover i{background:var(--iv);color:var(--ch);border-color:var(--iv)}
+
+/* readable numerals */
+body{font-variant-numeric:lining-nums}
+.tw .kpi b,.tw .price b,.tw table,.tw .pay-n,.tw .bal b,.cm .n,.pil .n,.ps .n,.facts b,.rc li b,.rc .tt b{font-variant-numeric:lining-nums tabular-nums}
+.tw .kpi b,.tw .price b,.tw .bal b,.tw .pay-n{font-family:var(--bd);font-weight:700}
+.tw .kpi b{font-size:1.45rem}
+.tw .price b{font-size:2.4rem}
