@@ -4,15 +4,15 @@ var D=document,R=D.documentElement,$=function(s,c){return (c||D).querySelector(s
 var URL_="https://qlmjcvpnjxdanzecwnsa.supabase.co",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsbWpjdnBuanhkYW56ZWN3bnNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ5NjIzMjIsImV4cCI6MjExMDUzODMyMn0.A2kDNF49Ks3t1tJd6hzlZrwk5PjuQGCQWzs0oe2yRDU";
 R.classList.add("js");
 var EN={
-"جاري الإرسال...":"Sending...","اكتب اسمك.":"Please enter your name.","اكتب اسمك بالكامل.":"Please enter your full name.","اكتب رقم موبايل صحيح، 11 رقم يبدأ بـ 01.":"Enter a valid mobile number: 11 digits starting with 01.","اكتب اسم المطعم أو الكافيه.":"Enter your restaurant or café name.","اختار الخدمة المطلوبة.":"Choose the service you need.","اختار المحافظة.":"Choose your governorate.","اكتب العنوان.":"Enter the address.","اختار الوظيفة المطلوبة.":"Choose the job you want.","اختار ملف السيرة الذاتية.":"Choose your CV file.","اكتب سنين الخبرة من 0 لـ 60.":"Enter years of experience from 0 to 60.",
-"وصلنا طلبك. هنراجعه ونتواصل معاك قريب.":"We got your request. We'll review it and contact you soon.","وصلت بياناتك. هنرشّحك للشركات المناسبة ونتواصل معاك.":"We got your details. We'll recommend you to suitable companies and contact you.",
-"رقم طلبك":"Your request number is","احتفظ به عشان تتابع طلبك من قسم «تابع طلبك».":"Keep it to follow your request in the “Track your request” section.",
+"جاري الإرسال...":"Sending...","اكتب اسمك.":"Please enter your name.","اكتب اسمك بالكامل.":"Please enter your full name.","اكتب رقم موبايل صحيح، 11 رقم يبدأ بـ 01.":"Enter a valid mobile number: 11 digits starting with 01.","اكتب اسم المطعم أو الكافيه.":"Enter your restaurant or café name.","اختار الخدمة اللي محتاجها.":"Choose the service you need.","اختار المحافظة.":"Choose your governorate.","اكتب العنوان.":"Enter the address.","اختار الوظيفة المطلوبة.":"Choose the job you want.","اختار ملف السيرة الذاتية.":"Choose your CV file.","اكتب سنين الخبرة من 0 لـ 60.":"Enter years of experience from 0 to 60.",
+"وصلنا طلبك. هنراجعه ونتواصل معاك قريب.":"We got your request. We'll review it and contact you soon.","وصلت بياناتك. هنرشّحك للمطاعم والكافيهات المناسبة ونتواصل معاك.":"We got your details. We'll recommend you to suitable restaurants and cafés and contact you.",
+"رقم طلبك":"Your request number is","احتفظ بيه عشان تتابع طلبك من قسم «تابع طلبك».":"Keep it to follow your request in the “Track your request” section.",
 "بعتّ طلبات كتير، جرّب بعد شوية.":"Too many requests, try again shortly.","حصلت مشكلة وإحنا بنبعت الطلب. جرّب تاني أو كلمنا على واتساب.":"Something went wrong while sending. Try again or message us on WhatsApp.","مفيش اتصال بالإنترنت. جرّب تاني.":"No internet connection. Try again.",
-"نوع الملف غير مدعوم. استخدم PDF أو Word أو صورة.":"Unsupported file type. Use PDF, Word or an image.","الملف كبير، الحد الأقصى 5 ميجا.":"File is too large. Max 5 MB.","فشل رفع الملف. جرّب تاني.":"File upload failed. Try again.",
-"اكتب رقم الطلب.":"Please enter the request number.","مفيش طلب بالبيانات دي. راجع الرقم والتليفون.":"No request found with these details. Check the number and phone.","طلب رقم":"Request no.",
-"جديد":"New","قيد التواصل":"Contacting","مقبول":"Accepted","قيد التنفيذ":"In progress","مكتمل":"Completed","مرفوض":"Declined",
-"وصل طلبك وهنراجعه قريب.":"We received your request and will review it soon.","فريقنا بيتواصل معاك دلوقتي.":"Our team is contacting you now.","تم قبول طلبك وجاري التجهيز للتنفيذ.":"Your request was accepted and is being prepared.","طلبك قيد التنفيذ.":"Your request is in progress.","تم تنفيذ طلبك. شكرًا لثقتك.":"Your request is done. Thank you.","للأسف مش هنقدر ننفذ الطلب ده. كلمنا على واتساب لو عايز تعرف التفاصيل.":"Unfortunately we can't carry out this request. Message us on WhatsApp for details.",
-"اختار خدمة أو أكتر الأول.":"Pick a service first."
+"نوع الملف مش مدعوم. استخدم PDF أو Word أو صورة.":"Unsupported file type. Use PDF, Word or an image.","الملف كبير، الحد الأقصى 5 ميجا.":"File is too large. Max 5 MB.","معرفناش نرفع الملف. جرّب تاني.":"File upload failed. Try again.",
+"اكتب رقم الطلب.":"Please enter the request number.","مفيش طلب بالبيانات دي. راجع الرقم ورقم الموبايل.":"No request found with these details. Check the number and phone.","طلب رقم":"Request no.",
+"جديد":"New","بنتواصل معاك":"Contacting you","بنشتغل عليه":"In progress","قيد التواصل":"Contacting","مقبول":"Accepted","قيد التنفيذ":"In progress","مكتمل":"Completed","مرفوض":"Declined",
+"وصل طلبك وهنراجعه قريب.":"We received your request and will review it soon.","فريقنا بيتواصل معاك دلوقتي.":"Our team is contacting you now.","طلبك اتقبل وبنجهّز للتنفيذ.":"Your request was accepted and is being prepared.","بنشتغل على طلبك دلوقتي.":"Your request is in progress.","خلّصنا طلبك. شكرًا لثقتك.":"Your request is done. Thank you.","للأسف مش هنقدر ننفذ الطلب ده. كلمنا على واتساب لو عايز تعرف التفاصيل.":"Unfortunately we can't carry out this request. Message us on WhatsApp for details.",
+"اختار خدمة أو أكتر الأول.":"Pick a service first.","محاولات كتير. جرّب بعد شوية.":"Too many attempts. Try again shortly."
 };
 var has=function(o,k){return Object.prototype.hasOwnProperty.call(o,k)};
 window.mzLang="ar";
@@ -58,6 +58,17 @@ try{if(location.protocol.indexOf("http")===0&&!/^(localhost|127\.)/.test(locatio
 
 function rpc(fn,body){return fetch(URL_+"/rest/v1/rpc/"+fn,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return null}).then(function(j){return {ok:r.ok,j:j,s:r.status}})})}
 function setMsg(m,cls,t){m.className="msg"+(cls?" "+cls:"");m.textContent=t||""}
+/* ---------- Turnstile gate ---------- */
+var TS_KEY="0x4AAAAAAGM_cPl1msnGcMNZ";
+var tsP=null;
+function tsLoad(){if(tsP)return tsP;tsP=new Promise(function(ok,no){if(window.turnstile)return ok();var e=document.createElement("script");e.src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";e.async=true;e.onload=function(){ok()};e.onerror=function(){tsP=null;no({mz:"معرفناش نحمّل التحقق الأمني. اتأكد من النت وجرّب تاني."})};document.head.appendChild(e)});return tsP}
+function tsToken(box){return tsLoad().then(function(){return new Promise(function(ok,no){
+  if(box._w!=null){try{window.turnstile.remove(box._w)}catch(e){}box._w=null}box.innerHTML="";var done=false;
+  var tm=setTimeout(function(){if(!done){done=true;no({mz:"التحقق أخد وقت. حدّث الصفحة وجرّب تاني."})}},90000);
+  box._w=window.turnstile.render(box,{sitekey:TS_KEY,appearance:"interaction-only",callback:function(t){if(!done){done=true;clearTimeout(tm);ok(t)}},"error-callback":function(){if(!done){done=true;clearTimeout(tm);no({mz:"التحقق الأمني فشل. حدّث الصفحة وجرّب تاني."})}},"expired-callback":function(){}})})})}
+function gate(a,d,t,c){return fetch(URL_+"/functions/v1/gate",{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({a:a,t:t||"",d:d,c:c||null})}).then(function(r){return r.json().catch(function(){return null}).then(function(j){return {ok:r.ok,j:r.ok?(j&&j.data!==undefined?j.data:j):j,s:r.status}})})}
+window.fnGate={on:!!TS_KEY,tok:tsToken,raw:gate};
+function submitVia(a,fn,args,box){return TS_KEY?tsToken(box).then(function(t){return gate(a,args,t)}):rpc(fn,args)}
 function failText(x){var m=x.j&&x.j.message;return (m&&/[؀-ۿ]/.test(m)&&window.mzLang!=="en")?m:tr(x.s===429?"بعتّ طلبات كتير، جرّب بعد شوية.":"حصلت مشكلة وإحنا بنبعت الطلب. جرّب تاني أو كلمنا على واتساب.")}
 var phoneOk=function(p){return /^01[0125][0-9]{8}$/.test(p)};
 var PH_ERR="اكتب رقم موبايل صحيح، 11 رقم يبدأ بـ 01.";
@@ -74,7 +85,7 @@ if(rf){
   window.fnPick=function(v){var c=picked.filter(function(x){return x.getAttribute("data-v")===v})[0];if(c){c.click()}};
   var check=function(i){
     $$(".bad",rf).forEach(function(e){e.classList.remove("bad")});
-    if(i===0&&!val(rf,"service")){setMsg(msg,"err",tr("اختار الخدمة المطلوبة."));return false}
+    if(i===0&&!val(rf,"service")){setMsg(msg,"err",tr("اختار الخدمة اللي محتاجها."));return false}
     if(i===1){if(!val(rf,"governorate")){flag(rf,"governorate");setMsg(msg,"err",tr("اختار المحافظة."));return false}
       if(!val(rf,"business_name")){flag(rf,"business_name");setMsg(msg,"err",tr("اكتب اسم المطعم أو الكافيه."));return false}
       if(!val(rf,"address")){flag(rf,"address");setMsg(msg,"err",tr("اكتب العنوان."));return false}}
@@ -88,9 +99,9 @@ if(rf){
     for(var i=0;i<3;i++){if(!check(i)){go(i);check(i);return}}
     var p=arDigits(val(rf,"phone")).replace(/[\s-]/g,"");
     sub.disabled=true;var tn=sub.firstChild,old=tn.nodeValue;tn.nodeValue=tr("جاري الإرسال...");setMsg(msg,"");
-    rpc("submit_public_request",{p_customer_name:val(rf,"customer_name"),p_phone:p,p_business_name:val(rf,"business_name"),p_service:val(rf,"service"),p_governorate:val(rf,"governorate"),p_address:val(rf,"address"),p_details:val(rf,"details"),p_hp:val(rf,"website")})
-    .then(function(x){if(x.ok){rf.reset();picked.forEach(function(c){c.setAttribute("aria-pressed","false")});svcEl.value="";go(0);setMsg(msg,"ok",tr("وصلنا طلبك. هنراجعه ونتواصل معاك قريب.")+(typeof x.j==="number"&&x.j>0?" "+tr("رقم طلبك")+" #"+x.j+" — "+tr("احتفظ به عشان تتابع طلبك من قسم «تابع طلبك».") :""))}else setMsg(msg,"err",failText(x))})
-    .catch(function(){setMsg(msg,"err",tr("مفيش اتصال بالإنترنت. جرّب تاني."))})
+    submitVia("request","submit_public_request",{p_customer_name:val(rf,"customer_name"),p_phone:p,p_business_name:val(rf,"business_name"),p_service:val(rf,"service"),p_governorate:val(rf,"governorate"),p_address:val(rf,"address"),p_details:val(rf,"details"),p_hp:val(rf,"website")},$(".cf-ts",rf))
+    .then(function(x){if(x.ok){rf.reset();picked.forEach(function(c){c.setAttribute("aria-pressed","false")});svcEl.value="";go(0);setMsg(msg,"ok",tr("وصلنا طلبك. هنراجعه ونتواصل معاك قريب.")+(typeof x.j==="number"&&x.j>0?" "+tr("رقم طلبك")+" #"+x.j+" — "+tr("احتفظ بيه عشان تتابع طلبك من قسم «تابع طلبك».") :""))}else setMsg(msg,"err",failText(x))})
+    .catch(function(er){setMsg(msg,"err",tr(er&&er.mz?er.mz:"مفيش اتصال بالإنترنت. جرّب تاني."))})
     .then(function(){sub.disabled=false;tn.nodeValue=old})});
   go(0);
   var qs=/[?&]s=(\d+)/.exec(location.search);if(qs){var cc=picked[parseInt(qs[1],10)];if(cc)cc.click()}
@@ -99,8 +110,9 @@ if(rf){
 $$("[data-svc]").forEach(function(a){a.addEventListener("click",function(){var v=a.getAttribute("data-svc");if(window.fnPick)window.fnPick(v)})});
 
 /* ---------- tracking ---------- */
+var LBL={"قيد التواصل":"بنتواصل معاك","قيد التنفيذ":"بنشتغل عليه"};
 var STEPS=["جديد","قيد التواصل","مقبول","قيد التنفيذ","مكتمل"];
-var TMSG={"جديد":"وصل طلبك وهنراجعه قريب.","قيد التواصل":"فريقنا بيتواصل معاك دلوقتي.","مقبول":"تم قبول طلبك وجاري التجهيز للتنفيذ.","قيد التنفيذ":"طلبك قيد التنفيذ.","مكتمل":"تم تنفيذ طلبك. شكرًا لثقتك.","مرفوض":"للأسف مش هنقدر ننفذ الطلب ده. كلمنا على واتساب لو عايز تعرف التفاصيل."};
+var TMSG={"جديد":"وصل طلبك وهنراجعه قريب.","قيد التواصل":"فريقنا بيتواصل معاك دلوقتي.","مقبول":"طلبك اتقبل وبنجهّز للتنفيذ.","قيد التنفيذ":"بنشتغل على طلبك دلوقتي.","مكتمل":"خلّصنا طلبك. شكرًا لثقتك.","مرفوض":"للأسف مش هنقدر ننفذ الطلب ده. كلمنا على واتساب لو عايز تعرف التفاصيل."};
 var tf=$("#f-track"),tres=$("#track-res");
 if(tf){var tm=$(".msg",tf);
   tf.addEventListener("submit",function(ev){ev.preventDefault();setMsg(tm,"");tres.hidden=true;
@@ -108,10 +120,10 @@ if(tf){var tm=$(".msg",tf);
     if(!(id>0)){setMsg(tm,"err",tr("اكتب رقم الطلب."));return}
     if(!phoneOk(p)){setMsg(tm,"err",tr(PH_ERR));return}
     var b=$(".b",tf);b.disabled=true;
-    rpc("track_request",{p_id:id,p_phone:p}).then(function(x){if(!x.ok){var m=x.j&&x.j.message;setMsg(tm,"err",(m&&/[؀-ۿ]/.test(m)&&window.mzLang!=="en")?m:tr("مفيش طلب بالبيانات دي. راجع الرقم والتليفون."));return}show(x.j)})
+    rpc("track_request",{p_id:id,p_phone:p}).then(function(x){if(x.ok&&x.j&&x.j.error){setMsg(tm,"err",tr(x.j.error==="rate"?"محاولات كتير. جرّب بعد شوية.":"مفيش طلب بالبيانات دي. راجع الرقم ورقم الموبايل."));return}if(!x.ok){var m=x.j&&x.j.message;setMsg(tm,"err",(m&&/[؀-ۿ]/.test(m)&&window.mzLang!=="en")?m:tr("مفيش طلب بالبيانات دي. راجع الرقم ورقم الموبايل."));return}show(x.j)})
     .catch(function(){setMsg(tm,"err",tr("مفيش اتصال بالإنترنت. جرّب تاني."))}).then(function(){b.disabled=false})});
   function show(d){tres.innerHTML="";var h=document.createElement("h3");h.textContent=tr("طلب رقم")+" #"+d.id;var s=document.createElement("p");s.className="sv-n";s.textContent=d.service;tres.appendChild(h);tres.appendChild(s);
-    var ix=STEPS.indexOf(d.status);if(ix>=0){var ol=document.createElement("ol");ol.className="tl";STEPS.forEach(function(t,i){var li=document.createElement("li");li.textContent=tr(t);li.className=i<ix?"done":i===ix?"cur":"";ol.appendChild(li)});tres.appendChild(ol)}
+    var ix=STEPS.indexOf(d.status);if(ix>=0){var ol=document.createElement("ol");ol.className="tl";STEPS.forEach(function(t,i){var li=document.createElement("li");li.textContent=tr(LBL[t]||t);li.className=i<ix?"done":i===ix?"cur":"";ol.appendChild(li)});tres.appendChild(ol)}
     var m=document.createElement("p");m.className="tm"+(d.status==="مرفوض"?" bad":"");m.textContent=tr(TMSG[d.status]||"")+(d.status==="قيد التنفيذ"&&d.progress>0?" ("+d.progress+"%)":"");tres.appendChild(m);tres.hidden=false}
 }
 
@@ -122,11 +134,18 @@ if(jf){
   var modeB=$$(".seg button",jf);
   modeB.forEach(function(b){b.addEventListener("click",function(){mode=b.getAttribute("data-m");modeB.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});$$(".m-form",jf).forEach(function(e){e.hidden=mode==="cv"});$$(".m-cv",jf).forEach(function(e){e.hidden=mode!=="cv"});setMsg(jm,"")})});
   var upload=function(file){var ext=(file.name.split(".").pop()||"").toLowerCase(),MT={pdf:"application/pdf",doc:"application/msword",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png"};
-    if(!MT[ext])return Promise.reject({mz:"نوع الملف غير مدعوم. استخدم PDF أو Word أو صورة."});
+    if(!MT[ext])return Promise.reject({mz:"نوع الملف مش مدعوم. استخدم PDF أو Word أو صورة."});
     if(file.size>5*1024*1024)return Promise.reject({mz:"الملف كبير، الحد الأقصى 5 ميجا."});
     var id=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():"xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx".replace(/x/g,function(){return (Math.random()*16|0).toString(16)});
     var path=id+"/cv."+ext;
-    return fetch(URL_+"/storage/v1/object/cvs/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":MT[ext],"x-upsert":"false"},body:file}).then(function(r){if(!r.ok)throw {mz:"فشل رفع الملف. جرّب تاني."};return path})};
+    return fetch(URL_+"/storage/v1/object/cvs/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":MT[ext],"x-upsert":"false"},body:file}).then(function(r){if(!r.ok)throw {mz:"معرفناش نرفع الملف. جرّب تاني."};return path})};
+  var uploadGate=function(file,box){var ext=(file.name.split(".").pop()||"").toLowerCase();
+    if(["pdf","doc","docx","jpg","jpeg","png"].indexOf(ext)<0)return Promise.reject({mz:"نوع الملف مش مدعوم. استخدم PDF أو Word أو صورة."});
+    if(file.size>5*1024*1024)return Promise.reject({mz:"الملف كبير، الحد الأقصى 5 ميجا."});
+    return tsToken(box).then(function(t){return gate("cv_prep",{ext:ext,size:file.size},t)}).then(function(x){
+      if(!x.ok||!x.j||!x.j.signedUrl)throw {mz:(x.j&&x.j.message&&/[؀-ۿ]/.test(x.j.message))?x.j.message:"معرفناش نجهّز رفع الملف. جرّب تاني."};
+      var fd=new FormData();fd.append("cacheControl","3600");fd.append("",file);
+      return fetch(x.j.signedUrl,{method:"PUT",headers:{apikey:KEY},body:fd}).then(function(r){if(!r.ok)throw {mz:"معرفناش نرفع الملف. جرّب تاني."};return {p_cv_path:x.j.path,_c:{path:x.j.path,exp:x.j.exp,sig:x.j.sig}}})})};
   jf.addEventListener("submit",function(ev){ev.preventDefault();setMsg(jm,"");$$(".bad",jf).forEach(function(e){e.classList.remove("bad")});
     var cv=mode==="cv",p=arDigits(val(jf,"phone")).replace(/[\s-]/g,"");jf.elements.phone.value=p;
     var bad=function(n,m){flag(jf,n);setMsg(jm,"err",tr(m));return true};
@@ -135,10 +154,14 @@ if(jf){
     if(cv){if(!(jf.elements.cv.files&&jf.elements.cv.files.length)&&bad("cv","اختار ملف السيرة الذاتية."))return}
     else{if(!val(jf,"governorate")&&bad("governorate","اختار المحافظة."))return;if(!val(jf,"desired_job")&&bad("desired_job","اختار الوظيفة المطلوبة."))return;var y=parseInt(arDigits(val(jf,"years")),10);if(!(y>=0&&y<=60)&&bad("years","اكتب سنين الخبرة من 0 لـ 60."))return}
     jb.disabled=true;var tn=jb.firstChild,old=tn.nodeValue;tn.nodeValue=tr("جاري الإرسال...");
-    Promise.resolve(cv?upload(jf.elements.cv.files[0]).then(function(x){return {p_cv_path:x}}):null).then(function(ex){
+    var tbox=$(".cf-ts",jf);
+    Promise.resolve(cv?(TS_KEY?uploadGate(jf.elements.cv.files[0],tbox):upload(jf.elements.cv.files[0]).then(function(x){return {p_cv_path:x}})):null).then(function(ex){
       var bd={p_full_name:val(jf,"full_name"),p_phone:p,p_email:val(jf,"email"),p_governorate:val(jf,"governorate"),p_desired_job:val(jf,"desired_job"),p_years:cv?0:parseInt(arDigits(val(jf,"years")),10),p_last_workplace:cv?"":val(jf,"last_workplace"),p_details:cv?"":val(jf,"details"),p_hp:val(jf,"website")};
-      if(ex)for(var k in ex)bd[k]=ex[k];return rpc("submit_job_application",bd)})
-    .then(function(x){if(x.ok){jf.reset();setMsg(jm,"ok",tr("وصلت بياناتك. هنرشّحك للشركات المناسبة ونتواصل معاك."))}else setMsg(jm,"err",failText(x))})
+      var tk=null;if(ex&&ex._c){tk=ex._c;ex={p_cv_path:ex.p_cv_path}}
+      if(ex)for(var k in ex)bd[k]=ex[k];
+      if(!TS_KEY)return rpc("submit_job_application",bd);
+      return tk?gate("job",bd,"",tk):tsToken(tbox).then(function(t){return gate("job",bd,t)})})
+    .then(function(x){if(x.ok){jf.reset();setMsg(jm,"ok",tr("وصلت بياناتك. هنرشّحك للمطاعم والكافيهات المناسبة ونتواصل معاك."))}else setMsg(jm,"err",failText(x))})
     .catch(function(er){setMsg(jm,"err",tr(er&&er.mz?er.mz:"مفيش اتصال بالإنترنت. جرّب تاني."))})
     .then(function(){jb.disabled=false;tn.nodeValue=old})});
 }
