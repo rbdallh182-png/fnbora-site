@@ -12,7 +12,7 @@ var EN={
 "اكتب رقم الطلب.":"Please enter the request number.","مفيش طلب بالبيانات دي. راجع الرقم ورقم الموبايل.":"No request found with these details. Check the number and phone.","طلب رقم":"Request no.",
 "جديد":"New","بنتواصل معاك":"Contacting you","بنشتغل عليه":"In progress","قيد التواصل":"Contacting","مقبول":"Accepted","قيد التنفيذ":"In progress","مكتمل":"Completed","مرفوض":"Declined",
 "وصل طلبك وهنراجعه قريب.":"We received your request and will review it soon.","فريقنا بيتواصل معاك دلوقتي.":"Our team is contacting you now.","طلبك اتقبل وبنجهّز للتنفيذ.":"Your request was accepted and is being prepared.","بنشتغل على طلبك دلوقتي.":"Your request is in progress.","خلّصنا طلبك. شكرًا لثقتك.":"Your request is done. Thank you.","للأسف مش هنقدر ننفذ الطلب ده. كلمنا على واتساب لو عايز تعرف التفاصيل.":"Unfortunately we can't carry out this request. Message us on WhatsApp for details.",
-"اختار خدمة أو أكتر الأول.":"Pick a service first.","محاولات كتير. جرّب بعد شوية.":"Too many attempts. Try again shortly."
+"اختار خدمة أو أكتر الأول.":"Pick a service first.","محاولات كتير. جرّب بعد شوية.":"Too many attempts. Try again shortly.","اختار يوم الاستشارة.":"Choose a day for the consultation.","اختار الوقت المناسب.":"Choose a suitable time.","اليوم لازم يكون من بكرة لحد 30 يوم قدّام.":"The day must be from tomorrow up to 30 days ahead.","تم تسجيل طلب الاستشارة. هنأكد معاك الميعاد على واتساب.":"Your consultation request is in. We’ll confirm the time with you on WhatsApp."
 };
 var has=function(o,k){return Object.prototype.hasOwnProperty.call(o,k)};
 window.mzLang="ar";
@@ -165,4 +165,41 @@ if(jf){
     .catch(function(er){setMsg(jm,"err",tr(er&&er.mz?er.mz:"مفيش اتصال بالإنترنت. جرّب تاني."))})
     .then(function(){jb.disabled=false;tn.nodeValue=old})});
 }
+
+/* ---------- consultation booking ---------- */
+var bf=$("#f-book");
+if(bf){
+  var bm=$(".msg",bf),bb=$("#book-send"),dt=bf.elements.date;
+  var pd=function(n){return (n<10?"0":"")+n},ymd=function(d){return d.getFullYear()+"-"+pd(d.getMonth()+1)+"-"+pd(d.getDate())};
+  var t1=new Date();t1.setDate(t1.getDate()+1);var t2=new Date();t2.setDate(t2.getDate()+30);dt.min=ymd(t1);dt.max=ymd(t2);
+  var qb=/[?&]s=(\d+)/.exec(location.search);if(qb){var tp=bf.elements.topic,ix=parseInt(qb[1],10);if(tp&&tp.options[ix+1])tp.selectedIndex=ix+1}
+  bf.addEventListener("submit",function(ev){ev.preventDefault();setMsg(bm,"");$$(".bad",bf).forEach(function(e){e.classList.remove("bad")});
+    var p=arDigits(val(bf,"phone")).replace(/[\s-]/g,"");bf.elements.phone.value=p;
+    var bad=function(n,m){flag(bf,n);setMsg(bm,"err",tr(m));return true};
+    if(val(bf,"customer_name").length<2&&bad("customer_name","اكتب اسمك."))return;
+    if(!phoneOk(p)&&bad("phone",PH_ERR))return;
+    if(!val(bf,"governorate")&&bad("governorate","اختار المحافظة."))return;
+    var dv=val(bf,"date");if(!dv&&bad("date","اختار يوم الاستشارة."))return;
+    if((dv<ymd(t1)||dv>ymd(t2))&&bad("date","اليوم لازم يكون من بكرة لحد 30 يوم قدّام."))return;
+    if(!val(bf,"slot")&&bad("slot","اختار الوقت المناسب."))return;
+    bb.disabled=true;var tn=bb.firstChild,old=tn.nodeValue;tn.nodeValue=tr("جاري الإرسال...");
+    submitVia("consult","submit_consult_booking",{p_customer_name:val(bf,"customer_name"),p_phone:p,p_business_name:val(bf,"business_name"),p_governorate:val(bf,"governorate"),p_date:dv,p_slot:val(bf,"slot"),p_topic:val(bf,"topic"),p_details:val(bf,"details"),p_hp:val(bf,"website")},$(".cf-ts",bf))
+    .then(function(x){if(x.ok){bf.reset();setMsg(bm,"ok",tr("تم تسجيل طلب الاستشارة. هنأكد معاك الميعاد على واتساب.")+(typeof x.j==="number"&&x.j>0?" "+tr("رقم طلبك")+" #"+x.j:""))}else setMsg(bm,"err",failText(x))})
+    .catch(function(er){setMsg(bm,"err",tr(er&&er.mz?er.mz:"مفيش اتصال بالإنترنت. جرّب تاني."))})
+    .then(function(){bb.disabled=false;tn.nodeValue=old})});
+}
+
+/* ---------- motion helpers ---------- */
+(function(){
+  var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;if(reduce)return;
+  var bar=D.createElement("div");bar.className="sp";bar.setAttribute("aria-hidden","true");D.body.appendChild(bar);
+  var last=window.scrollY,tick=false,hdr=$(".hd");
+  function upd(){tick=false;var y=window.scrollY,h=D.documentElement.scrollHeight-window.innerHeight;bar.style.transform="scaleX("+(h>0?Math.min(1,y/h):0)+")";
+    if(hdr){var mo=$(".mn.open");if(y>240&&y>last+6&&!mo)hdr.classList.add("hide");else if(y<last-6||y<=240)hdr.classList.remove("hide")}last=y}
+  window.addEventListener("scroll",function(){if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});upd();
+  /* hero mark parallax */
+  var mk=$(".hero-mk");if(mk&&window.innerWidth>760){window.addEventListener("scroll",function(){var y=Math.min(window.scrollY,600);mk.style.transform="translateY("+(y*.12)+"px)"},{passive:true})}
+  /* subtle press feedback for touch */
+  $$(".b,.chip").forEach(function(e){e.addEventListener("touchstart",function(){},{passive:true})});
+})();
 })();

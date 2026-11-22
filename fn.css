@@ -277,3 +277,66 @@ body{font-variant-numeric:lining-nums}
 .tw .kpi b{font-size:1.45rem}
 .tw .price b{font-size:2.4rem}
 .cf-ts{margin-top:12px;min-height:0}.cf-ts:empty{display:none}
+
+/* ---------- service pages & booking ---------- */
+.rb a.dl{margin-inline-start:18px;color:var(--aud);font-weight:700;text-decoration:none;border-bottom:1px solid currentColor}
+.rb a.dl:hover{color:var(--g)}
+.sx-g{display:grid;gap:clamp(26px,5vw,56px)}
+@media(min-width:820px){.sx-g{grid-template-columns:1fr 1fr}}
+.sx-c h2,.sx-s h2,.sx-f h2,.sx-m h2{font:700 clamp(1.6rem,3.2vw,2.3rem)/1.25 var(--hd);margin-bottom:18px}
+.sx-l{list-style:none;margin:0;padding:0}
+.sx-l li{position:relative;padding:14px 0;padding-inline-start:30px;border-bottom:1px solid rgba(41,44,42,.18)}
+.sx-l li:before{content:"";position:absolute;inset-inline-start:2px;top:1.35em;width:12px;height:2px;background:var(--aud)}
+.sx-s{margin-top:clamp(40px,7vw,80px)}
+.sx-st{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+@media(min-width:760px){.sx-st{grid-template-columns:repeat(4,1fr)}}
+.sx-st li{background:var(--g);color:var(--iv);padding:22px;border-top:3px solid var(--au);display:flex;flex-direction:column;gap:12px;min-height:130px}
+.sx-st .n{font:600 1.05rem var(--nm);color:var(--au);letter-spacing:.1em}
+.sx-st b{font:700 1.08rem/1.5 var(--bd)}
+.sx-f{margin-top:clamp(40px,7vw,80px)}
+.sx-cta{margin-top:clamp(40px,7vw,80px);display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;padding:28px;background:var(--iv2);border:1px solid var(--ln);border-top:4px solid var(--au)}
+.sx-cta b{display:block;font:700 1.25rem var(--hd)}
+.sx-cta span{color:rgba(41,44,42,.8)}
+.sx-m{margin-top:clamp(40px,7vw,80px)}
+.sx-mg{display:grid;gap:10px}
+@media(min-width:760px){.sx-mg{grid-template-columns:repeat(3,1fr)}}
+.sx-mg a{display:flex;justify-content:space-between;gap:12px;padding:16px 18px;border:1px solid rgba(41,44,42,.25);text-decoration:none;color:inherit;transition:border-color .25s,background .25s,transform .25s}
+.sx-mg a:hover{border-color:var(--au);background:var(--iv2);transform:translateY(-3px)}
+.sx-mg i{font-style:normal;color:var(--aud);white-space:nowrap}
+
+/* ---------- motion layer ---------- */
+html{scroll-behavior:smooth}
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vt-out .22s ease both}
+::view-transition-new(root){animation:vt-in .32s ease both}
+@keyframes vt-out{to{opacity:0}}@keyframes vt-in{from{opacity:0}}
+/* hero entrance */
+@keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+html.js .hero h1 span,html.js .hero h1 em{display:block;animation:up .9s cubic-bezier(.2,.7,.2,1) both}
+html.js .hero h1 em{animation-delay:.14s}
+html.js .hero .sub{animation:up .9s .3s cubic-bezier(.2,.7,.2,1) both}
+html.js .hero .acts{animation:up .9s .45s cubic-bezier(.2,.7,.2,1) both}
+html.js .hero .pil>div{animation:up .8s cubic-bezier(.2,.7,.2,1) both}
+html.js .hero .pil>div:nth-child(1){animation-delay:.55s}html.js .hero .pil>div:nth-child(2){animation-delay:.65s}html.js .hero .pil>div:nth-child(3){animation-delay:.75s}html.js .hero .pil>div:nth-child(4){animation-delay:.85s}
+html.js .ph .wrap>*{animation:up .8s cubic-bezier(.2,.7,.2,1) both}
+html.js .ph .wrap>*:nth-child(2){animation-delay:.08s}html.js .ph .wrap>*:nth-child(3){animation-delay:.16s}html.js .ph .wrap>*:nth-child(4){animation-delay:.24s}
+/* staggered reveals inside grids */
+html.js .rv.in>*{animation:up .7s cubic-bezier(.2,.7,.2,1) both}
+html.js .rv.in>*:nth-child(2){animation-delay:.08s}html.js .rv.in>*:nth-child(3){animation-delay:.16s}html.js .rv.in>*:nth-child(4){animation-delay:.24s}html.js .rv.in>*:nth-child(5){animation-delay:.32s}
+/* interactions */
+.b{position:relative;overflow:hidden}
+.b:active{transform:translateY(0) scale(.98)}
+.card,.sx-st li,.sx-mg a,.bl a,.chip{transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .25s,background .25s}
+@media(hover:hover){.card:hover{box-shadow:0 18px 40px -22px rgba(20,47,39,.45)}.sx-st li:hover{transform:translateY(-4px)}.bl a:hover{transform:translateY(-3px)}}
+.rw .x{transition:transform .3s}
+.rb{transition:grid-template-rows .35s ease}
+.fl input,.fl select,.fl textarea{transition:border-color .25s,border-width .15s}
+/* scroll progress */
+.sp{position:fixed;top:0;inset-inline:0;height:3px;z-index:60;background:var(--au);transform-origin:right center;transform:scaleX(0);pointer-events:none}
+html[dir=ltr] .sp{transform-origin:left center}
+/* hide header on scroll down (shown on scroll up) */
+.hd{transition:background .3s,box-shadow .3s,transform .35s cubic-bezier(.2,.7,.2,1)}
+.hd.hide{transform:translateY(-100%)}
+@media(prefers-reduced-motion:reduce){@view-transition{navigation:none}html.js .hero h1 span,html.js .hero h1 em,html.js .hero .sub,html.js .hero .acts,html.js .hero .pil>div,html.js .ph .wrap>*,html.js .rv.in>*{animation:none!important}.hd.hide{transform:none}.sp{display:none}}
+.rb a.dl,.rb a.dl:visited{background:transparent;color:var(--g);border:1px solid var(--g);margin-inline-start:10px}
+.rb a.dl:hover{background:var(--g);color:var(--iv)}
