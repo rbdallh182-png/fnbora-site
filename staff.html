@@ -534,11 +534,35 @@ function loadTab(){
   S.busy=true;render();
   return Promise.all(jobs).catch(function(e){setMsg("err",arErr(e));}).then(function(){S.busy=false;render();});
 }
+function mfaGate(){
+  var A=sb.auth.mfa;
+  return A.getAuthenticatorAssuranceLevel().then(function(r){
+    if(r.error)throw r.error;
+    var d=r.data||{};
+    if(d.currentLevel==="aal2"){S.mfa=null;return true;}
+    return A.listFactors().then(function(f){
+      var all=(f.data&&f.data.all)||[];
+      var ok=all.filter(function(x){return x.factor_type==="totp"&&x.status==="verified";})[0];
+      if(ok){S.mfa={step:"verify",factorId:ok.id};return false;}
+      var stale=all.filter(function(x){return x.status!=="verified";});
+      return Promise.all(stale.map(function(x){return A.unenroll({factorId:x.id});})).then(function(){
+        return A.enroll({factorType:"totp",friendlyName:"Fnbora CEO "+Date.now()});
+      }).then(function(e){
+        if(e.error)throw e.error;
+        S.mfa={step:"enroll",factorId:e.data.id,qr:e.data.totp.qr_code,secret:e.data.totp.secret};return false;
+      });
+    });
+  }).catch(function(e){S.mfa=null;setMsg("err","تعذّر فحص التحقق بخطوتين: "+arErr(e));return true;});
+}
 function loadProfile(){
   return rpc("get_my_profile").then(function(p){
     S.profile=p;
-    if(p.status==="active"&&TABS[p.role]){startPulse();S.tab=S.tab&&TABS[p.role].some(function(x){return x[0]===S.tab;})?S.tab:TABS[p.role][0][0];return loadTab();}
-    render();
+    var gate=(p.status==="active"&&p.role==="ceo"&&!impOn())?mfaGate():Promise.resolve(true);
+    return gate.then(function(ok){
+      if(!ok){S.busy=false;render();return;}
+      if(p.status==="active"&&TABS[p.role]){startPulse();S.tab=S.tab&&TABS[p.role].some(function(x){return x[0]===S.tab;})?S.tab:TABS[p.role][0][0];return loadTab();}
+      render();
+    });
   }).catch(function(e){setMsg("err",arErr(e));render();});
 }
 
@@ -560,6 +584,15 @@ function authView(){
      '<button class="btn primary" type="submit"'+(S.busy?" disabled":"")+'>'+(login?"دخول":"إرسال الطلب")+'</button>';
   if(!login)h+='<p class="muted" style="margin:0;font-size:15px">الحساب بيتفعّل بعد موافقة الـ CEO.</p>';
   return h+'</form></div>';
+}
+
+function mfaView(){
+  var m=S.mfa,en=m.step==="enroll";
+  var h='<div class="center"><form class="card" id="mfaForm" autocomplete="off"><div class="who"><img class="logo" src="mark-dark.png" alt=""><span class="brand">Fnbora</span></div><h1 style="font-size:20px;font-weight:600">'+(en?"فعّل التحقق بخطوتين":"كود التحقق")+'</h1>'+msgView();
+  if(en)h+='<p class="muted" style="margin:0;font-size:15px">افتح تطبيق Google Authenticator (أو Microsoft Authenticator) على موبايلك وامسح الكود ده، أو اكتب المفتاح بإيدك. بعدها اكتب الكود اللي هيظهرلك (6 أرقام).</p><div style="text-align:center"><img alt="QR" src="'+esc(m.qr)+'" style="width:200px;height:200px;background:#fff;padding:8px;border-radius:12px"></div><p class="muted" dir="ltr" style="margin:0;font-size:13px;word-break:break-all;text-align:center">'+esc(m.secret)+'</p>';
+  else h+='<p class="muted" style="margin:0;font-size:15px">اكتب الكود الظاهر دلوقتي في تطبيق التحقق على موبايلك.</p>';
+  h+='<div class="field"><label for="mc">الكود (6 أرقام)</label><input class="in" id="mc" inputmode="numeric" autocomplete="one-time-code" maxlength="6" dir="ltr" style="text-align:center;letter-spacing:6px" required></div><button class="btn primary" type="submit"'+(S.busy?" disabled":"")+'>'+(en?"تفعيل ودخول":"دخول")+'</button><div class="acts"><button class="btn no" type="button" data-act="logout">تسجيل الخروج</button></div></form></div>';
+  return h;
 }
 
 function holdView(){
@@ -1106,6 +1139,7 @@ function render(){
   else if(!S.session)h=authView();
   else if(!S.profile)h='<div class="center"><div class="card">'+msgView()+'<p class="muted">جاري تحميل الحساب...</p><button class="btn no" data-act="logout" type="button">تسجيل الخروج</button></div></div>';
   else if(S.profile.status!=="active"||!TABS[S.profile.role])h=holdView();
+  else if(S.mfa)h=mfaView();
   else h=appView();
   el.innerHTML=h;
 }
@@ -1130,6 +1164,18 @@ app.addEventListener("submit",function(e){
       if(r.data&&r.data.session){S.session=r.data.session;return loadProfile();}
       setMsg("ok","اتبعت طلبك. لو وصلتك رسالة تأكيد على الإيميل اضغط عليها، وبعدها استنى موافقة الـ CEO.");S.mode="login";render();
     }).catch(function(er){S.busy=false;setMsg("err",arErr(er));render();});
+  }
+  if(e.target.id==="mfaForm"&&S.mfa){
+    var code=g("mc").replace(/[^0-9]/g,"");
+    if(code.length!==6){setMsg("err","اكتب الكود المكوّن من 6 أرقام.");render();return;}
+    S.busy=true;setMsg(null);render();
+    sb.auth.mfa.challengeAndVerify({factorId:S.mfa.factorId,code:code}).then(function(r){
+      if(r.error)throw r.error;
+      return sb.auth.getSession();
+    }).then(function(r){
+      S.session=r.data.session;S.mfa=null;S.busy=false;return loadProfile();
+    }).catch(function(){S.busy=false;setMsg("err","الكود غلط أو انتهى. اكتب كود جديد من التطبيق.");render();});
+    return;
   }
   if(e.target.id==="addForm"){
     act(rpc("submit_customer_request",{p_customer_name:g("a1"),p_phone:g("a2"),p_business_name:g("a3"),p_work_type:g("a4"),p_work_location:g("a5"),p_details:g("a6")}).then(function(){setMsg("ok","تمت إضافة الطلب.");}));
