@@ -54,7 +54,11 @@ if(lb&&R.hasAttribute("data-i18n")){
 }
 
 /* ---------- visit counter ---------- */
-try{if(location.protocol.indexOf("http")===0&&!/^(localhost|127\.)/.test(location.hostname)){var pth=location.pathname.replace(/^\/fnbora-site/,"")||"/";fetch(URL_+"/rest/v1/rpc/track_visit",{method:"POST",keepalive:true,headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({p_path:pth})}).catch(function(){})}}catch(e){}
+try{if(location.protocol.indexOf("http")===0&&!/^(localhost|127\.)/.test(location.hostname)){var pth=location.pathname.replace(/^\/fnbora-site/,"")||"/";fetch(URL_+"/rest/v1/rpc/track_visit",{method:"POST",keepalive:true,headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({p_path:pth})}).catch(function(){});
+try{var ssK="fn-src";if(!sessionStorage.getItem(ssK)){var qs=new URLSearchParams(location.search),us=(qs.get("utm_source")||"").toLowerCase(),rh="";try{rh=document.referrer?new URL(document.referrer).hostname.toLowerCase():""}catch(e){}
+if(rh&&rh===location.hostname&&!us){sessionStorage.setItem(ssK,"1")}else{var sv=us||rh,sn="direct";if(sv){sn=/google|bing|duckduckgo|yahoo/.test(sv)?"google":/facebook|fb\.com|fb\.me|^fb$/.test(sv)?"facebook":/instagram|^ig$/.test(sv)?"instagram":/whatsapp|wa\.me/.test(sv)?"whatsapp":/tiktok/.test(sv)?"tiktok":/youtube|youtu\.be/.test(sv)?"youtube":/linkedin|lnkd/.test(sv)?"linkedin":"other"}
+sessionStorage.setItem(ssK,"1");fetch(URL_+"/rest/v1/rpc/track_source",{method:"POST",keepalive:true,headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({p_src:sn})}).catch(function(){})}}}catch(e){}
+}}catch(e){}
 
 function rpc(fn,body){return fetch(URL_+"/rest/v1/rpc/"+fn,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return null}).then(function(j){return {ok:r.ok,j:j,s:r.status}})})}
 function setMsg(m,cls,t){m.className="msg"+(cls?" "+cls:"");m.textContent=t||""}

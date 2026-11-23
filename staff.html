@@ -128,6 +128,13 @@ body{background:radial-gradient(ellipse at 92% 0%,rgba(83,106,95,.09),transparen
 .mprev{border:1px solid var(--line);border-radius:14px;background:#EAE4D8;padding:10px;max-height:78vh;overflow:auto}.mprev img{display:block;width:100%;height:auto;border-radius:8px}
 #cardMsg{margin:0}
 @media(max-width:760px){.mgrid{grid-template-columns:1fr}.mprev{order:-1;max-height:46vh}.xp{width:100%;margin-inline-start:0}.xp .in{flex:1 1 130px}}
+.cal{padding:16px}.cal-h{display:flex;align-items:center;gap:8px;margin-bottom:12px}.cal-h b{flex:1;text-align:center;font-family:var(--display);font-size:18px}
+.cal-g{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.cal-w{font-style:normal;text-align:center;font-size:11.5px;color:var(--muted);font-weight:700;padding:2px 0}
+.cal-e{display:block}.cal-d{position:relative;height:60px;min-height:0;border:1.5px solid var(--line);border-radius:12px;background:#F2EEE7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 2px;font-weight:600}
+.cal-d b{font-size:15px}.cal-d.td{border-color:#B79A70;box-shadow:inset 0 0 0 1px #B79A70}.cal-d.sel{background:#1D372F;border-color:#1D372F;color:#F2EEE7}
+.cal-d em,.cal-k em{font-style:normal;font-size:11px;font-weight:700;border-radius:999px;padding:0 7px;min-width:20px;text-align:center;line-height:18px}.cal-d .c1,.cal-k .c1{background:#B79A70;color:#1F362E}.cal-d .c2,.cal-k .c2{background:#C9C3B5;color:#3A4A43}.cal-k em{background:none!important;padding:0;font-size:14px}.cal-k .c1{color:#B79A70}.cal-k .c2{color:#8D998E}
+.cal-b{display:flex;gap:3px;align-items:center}.cal-g{max-width:920px}.cal-k{margin:12px 0 0;font-size:13px}.cal-t{font-size:18px;margin:22px 0 10px}.rcards2{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}.ev.evx{opacity:.55}.late>span{display:block;margin:0 4px 4px;font-size:13px}.summary-bar strong.bad{color:var(--bad)}
+@media(max-width:640px){.cal-d{height:54px}.cal{padding:12px}.cal-g{gap:4px}}
 .rcards{display:none}
 @media(max-width:820px){.tblw{display:none}.rcards{display:grid;gap:12px}}
 .rcard{background:#F2EEE7;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;box-shadow:0 12px 30px -28px #20352E}
@@ -482,14 +489,14 @@ var STATUSES=["جديد","قيد التواصل","مقبول","قيد التنف
 var JOB_STATUSES=["جديد","قيد المراجعة","مقبول للترشيح","مرفوض"];
 var MGR_STATUSES=["جديد","قيد التواصل","قيد التنفيذ","مكتمل"];
 var TABS={
-  ceo:[["analytics","تحليل التشغيل"],["requests","الطلبات"],["jobs","طلبات التوظيف"],["tools","الاشتراكات"],["backup","النسخ الاحتياطي"],["activity","سجل النشاط"],["trash","سلة المهملات"],["access","الموظفين وطلبات الدخول"],["perms","الصلاحيات"]],
-  manager:[["requests","الطلبات وتوزيع الشغل"]],
+  ceo:[["analytics","تحليل التشغيل"],["requests","الطلبات"],["calendar","المواعيد"],["jobs","طلبات التوظيف"],["tools","الاشتراكات"],["backup","النسخ الاحتياطي"],["activity","سجل النشاط"],["trash","سلة المهملات"],["access","الموظفين وطلبات الدخول"],["perms","الصلاحيات"]],
+  manager:[["requests","الطلبات وتوزيع الشغل"],["calendar","المواعيد"]],
   assistant_manager:[["work","جدول الشغل"]]
 };
 
 var sb=null;
 var S={booted:false,mode:"login",session:null,profile:null,tab:null,busy:false,msg:null,
-       requests:[],assistants:[],analytics:null,jobapps:[],pending:[],users:[],tasks:[],q:"",fs:"",jq:"",jfs:"",xr:"all",xf:"",xt:"",xbusy:false,activity:[],trash:[],aq:"",alert:null,tools:[],tcfg:null,bk:null};
+       requests:[],assistants:[],analytics:null,jobapps:[],pending:[],users:[],tasks:[],q:"",fs:"",jq:"",jfs:"",xr:"all",xf:"",xt:"",xbusy:false,activity:[],trash:[],aq:"",alert:null,tools:[],tcfg:null,bk:null,cm:null,cd:null};
 
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
 function num(n){return Number(n||0).toLocaleString("en-US");}
@@ -517,10 +524,8 @@ function rpc(name,args){return sb.rpc(name,args||{}).then(function(r){if(r.error
 function loadTab(){
   var role=S.profile.role,t=S.tab,jobs=[];
   if(t==="analytics")jobs.push(rpc("ceo_analytics").then(function(d){S.analytics=d;}));
-  if(t==="requests"){
-    jobs.push(rpc("manager_list_requests").then(function(d){S.requests=d||[];}));
-    jobs.push(rpc("manager_list_assistants").then(function(d){S.assistants=d||[];}));
-  }
+  if(t==="requests"||t==="calendar")jobs.push(rpc("manager_list_requests").then(function(d){S.requests=d||[];}));
+  if(t==="requests")jobs.push(rpc("manager_list_assistants").then(function(d){S.assistants=d||[];}));
   if(t==="jobs"&&role==="ceo")jobs.push(rpc("ceo_list_job_applications").then(function(d){S.jobapps=d||[];}));
   if(t==="access"&&role==="ceo"){
     jobs.push(rpc("ceo_pending_users").then(function(d){S.pending=d||[];}));
@@ -931,7 +936,21 @@ function chartsView(a){
   return '<section class="card"><h2 style="font-size:19px;margin-bottom:16px">الطلبات شهريًا (آخر 6 شهور)</h2>'+barChart(m,"requests","m")+'</section>'+
     '<section class="card"><h2 style="font-size:19px;margin-bottom:16px">المحصّل شهريًا (جنيه)</h2>'+barChart(m,"collected","m","o")+'</section>'+
     '<section class="card"><h2 style="font-size:19px;margin-bottom:16px">طلبات التوظيف شهريًا</h2>'+barChart(m,"jobs","m")+'</section>'+
-    '<section class="card"><h2 style="font-size:19px;margin-bottom:16px">زيارات الموقع (آخر 14 يوم)</h2>'+barChart(vs,"n","d","o")+'<p class="muted" style="margin:10px 0 0;font-size:13px">عدّاد بسيط بيحسب الزيارات من غير بيانات شخصية.</p></section>';
+    '<section class="card"><h2 style="font-size:19px;margin-bottom:16px">زيارات الموقع (آخر 14 يوم)</h2>'+barChart(vs,"n","d","o")+'<p class="muted" style="margin:10px 0 0;font-size:13px">عدّاد بسيط بيحسب الزيارات من غير بيانات شخصية.</p></section>'+srcCards(a);
+}
+
+
+var SRC_AR={direct:"مباشر (لينك أو موبايل)",google:"جوجل ومحركات البحث",facebook:"فيسبوك",instagram:"إنستجرام",whatsapp:"واتساب",tiktok:"تيك توك",youtube:"يوتيوب",linkedin:"لينكدإن",other:"مواقع تانية"};
+function srcCards(a){
+  var s=a.sources||[],p=a.top_pages||[],tot=0,mx=0;s.forEach(function(x){tot+=Number(x.n);});p.forEach(function(x){mx=Math.max(mx,Number(x.n));});
+  var h='<section class="card"><h2 style="font-size:19px;margin-bottom:16px">الزيارات جاية منين (آخر 30 يوم)</h2>';
+  if(!s.length)h+='<p class="muted">لسه مفيش بيانات. هتبدأ تظهر بعد رفع النسخة الجديدة.</p>';
+  s.forEach(function(x){h+='<div class="row"><div class="l"><span>'+esc(SRC_AR[x.s]||x.s)+'</span><span>'+Number(x.n)+' ('+pct(Number(x.n),tot)+'%)</span></div><div class="bar o"><i style="width:'+pct(Number(x.n),tot)+'%"></i></div></div>';});
+  h+='<p class="muted" style="margin:10px 0 0;font-size:13px">لتتبع إعلان فيسبوك: ضيف <span dir="ltr">?utm_source=facebook</span> في آخر لينك الإعلان.</p></section>';
+  h+='<section class="card"><h2 style="font-size:19px;margin-bottom:16px">أكتر الصفحات زيارة (آخر 30 يوم)</h2>';
+  if(!p.length)h+='<p class="muted">لسه مفيش بيانات.</p>';
+  p.forEach(function(x){h+='<div class="row"><div class="l"><span dir="ltr">'+esc(x.p)+'</span><span>'+Number(x.n)+'</span></div><div class="bar"><i style="width:'+pct(Number(x.n),mx)+'%"></i></div></div>';});
+  return h+'</section>';
 }
 
 /* ---------- live alerts ---------- */
@@ -1035,6 +1054,79 @@ function reqTable(){
   return h+'</div>';
 }
 
+
+/* ---------- Appointments calendar ---------- */
+var CONSULT="حجز استشارة مجانية",SLOTS=["صباحًا (10 – 12)","ظهرًا (12 – 3)","مساءً (3 – 6)","مساءً متأخر (6 – 9)"];
+var DOWS=["سبت","أحد","إثنين","ثلاثاء","أربعاء","خميس","جمعة"],DOW=["السبت","الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة"],MONTHS=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+function pad2(n){return ("0"+n).slice(-2);}
+function ymd(y,m,d){return y+"-"+pad2(m+1)+"-"+pad2(d);}
+function addDays(ds,n){var p=ds.split("-"),d=new Date(+p[0],+p[1]-1,+p[2]+n);return dayStr(d);}
+function dowName(ds){var p=ds.split("-"),d=new Date(+p[0],+p[1]-1,+p[2]);return DOW[(d.getDay()+1)%7];}
+function calEvents(){
+  var m={};
+  S.requests.forEach(function(r){
+    if(!r.follow_up_date)return;
+    var isC=r.work_type===CONSULT,slot="",topic="",asked="",note="",det=String(r.details||"");
+    if(isC){
+      var a=/الميعاد المفضل:\s*(\d{4}-\d{2}-\d{2})\s*—\s*([^\n]+)/.exec(det);if(a){asked=a[1];slot=a[2].trim();}
+      var t=/(?:^|\n)الموضوع:\s*([^\n]+)/.exec(det);if(t)topic=t[1].trim();
+      note=det.split("\n").filter(function(l){return l.indexOf("الميعاد المفضل:")!==0&&l.indexOf("الموضوع:")!==0;}).join("\n").trim();
+    }
+    (m[r.follow_up_date]=m[r.follow_up_date]||[]).push({r:r,c:isC,slot:slot,topic:topic,asked:asked,note:note,closed:r.status==="مكتمل"||r.status==="مرفوض"});
+  });
+  Object.keys(m).forEach(function(k){m[k].sort(function(x,y){
+    if(x.closed!==y.closed)return x.closed?1:-1;
+    if(x.c!==y.c)return x.c?-1:1;
+    var sx=SLOTS.indexOf(x.slot),sy=SLOTS.indexOf(y.slot);sx=sx<0?9:sx;sy=sy<0?9:sy;
+    return sx-sy||x.r.id-y.r.id;});});
+  return m;
+}
+function calCard(e,ceo){
+  var r=e.r,h='<article class="rcard ev'+(e.closed?" evx":"")+'"><div class="rc-h"><b>'+(e.slot?esc(e.slot)+" · ":"")+esc(r.customer_name)+'</b><span class="st '+(e.c?"new":"")+'">'+(e.c?"استشارة":"متابعة")+'</span></div>';
+  h+='<div class="rc-l"><span>التليفون</span><span dir="ltr">'+esc(r.phone)+' <a class="wl" href="tel:'+esc(String(r.phone||"").replace(/[^\d+]/g,""))+'" aria-label="اتصال">📞</a> <a class="wl" href="'+waLink(r.phone)+'" target="_blank" rel="noopener" aria-label="واتساب">💬</a></span></div>';
+  if(r.business_name)h+='<div class="rc-l"><span>النشاط</span><span>'+esc(r.business_name)+'</span></div>';
+  h+='<div class="rc-l"><span>'+(e.c?"المحافظة":"نوع العمل")+'</span><span>'+esc(e.c?r.work_location:r.work_type)+'</span></div>';
+  if(e.topic)h+='<div class="rc-l"><span>الموضوع</span><span>'+esc(e.topic)+'</span></div>';
+  var note=e.c?e.note:(r.details||"");
+  if(note)h+='<div class="rc-l"><span>ملاحظات</span><span>'+esc(note)+'</span></div>';
+  if(e.c&&e.asked&&e.asked!==r.follow_up_date)h+='<div class="rc-l"><span>الميعاد الأصلي</span><span dir="ltr">'+esc(e.asked)+'</span></div>';
+  h+='<div class="rc-g"><label>الحالة'+statusSel(r,ceo)+'</label></div><div class="acts"><button class="btn sm" type="button" data-act="file" data-id="'+r.id+'">📂 الملف</button></div></article>';
+  return h;
+}
+function calView(){
+  var ceo=S.profile.role==="ceo",today=dayStr(new Date()),ev=calEvents();
+  if(!S.cd)S.cd=today;
+  var cm=S.cm||S.cd.slice(0,7),py=+cm.slice(0,4),pm=+cm.slice(5,7)-1;
+  var first=new Date(py,pm,1),lead=(first.getDay()+1)%7,dim=new Date(py,pm+1,0).getDate();
+  var prev=new Date(py,pm-1,1),next=new Date(py,pm+1,1);
+  var pk=prev.getFullYear()+"-"+pad2(prev.getMonth()+1),nk=next.getFullYear()+"-"+pad2(next.getMonth()+1);
+  function open(k){return (ev[k]||[]).filter(function(x){return !x.closed;});}
+  function cnt(k,c){return open(k).filter(function(x){return x.c===c;}).length;}
+  var wk=0,i;for(i=0;i<7;i++)wk+=cnt(addDays(today,i),true);
+  var od=0;Object.keys(ev).forEach(function(k){if(k<today)ev[k].forEach(function(x){if(x.c&&(x.r.status==="جديد"||x.r.status==="قيد التواصل"))od++;});});
+  var h='<div class="summary-bar"><span>النهارده: <strong>'+cnt(today,true)+'</strong> استشارة</span><span class="sep"></span><span>بكرة: <strong>'+cnt(addDays(today,1),true)+'</strong></span><span class="sep"></span><span>الـ 7 أيام الجاية: <strong>'+wk+'</strong></span><span class="sep"></span><span>فاتت من غير متابعة: <strong'+(od?' class="bad"':'')+'>'+od+'</strong></span></div>';
+  h+='<section class="card cal"><div class="cal-h"><button class="btn sm" type="button" data-act="calnav" data-m="'+pk+'" aria-label="الشهر اللي قبله">→</button><b>'+MONTHS[pm]+' '+py+'</b><button class="btn sm" type="button" data-act="calnav" data-m="'+nk+'" aria-label="الشهر اللي بعده">←</button><button class="btn sm primary" type="button" data-act="caltoday">النهارده</button></div><div class="cal-g">';
+  DOWS.forEach(function(n){h+='<i class="cal-w">'+n+'</i>';});
+  for(i=0;i<lead;i++)h+='<span class="cal-e"></span>';
+  for(i=1;i<=dim;i++){
+    var k=ymd(py,pm,i),c=cnt(k,true),f=cnt(k,false);
+    h+='<button type="button" class="cal-d'+(k===today?" td":"")+(k===S.cd?" sel":"")+'" data-act="calday" data-d="'+k+'" aria-label="'+i+' '+MONTHS[pm]+(c?"، "+c+" استشارة":"")+'" aria-pressed="'+(k===S.cd)+'"><b>'+i+'</b>'+((c||f)?'<span class="cal-b">'+(c?'<em class="c1">'+c+'</em>':'')+(f?'<em class="c2">'+f+'</em>':'')+'</span>':'')+'</button>';
+  }
+  h+='</div><p class="muted cal-k"><em class="c1">●</em> استشارة محجوزة &nbsp; <em class="c2">●</em> متابعة</p></section>';
+  var L=ev[S.cd]||[];
+  h+='<h2 class="cal-t">'+dowName(S.cd)+' '+(+S.cd.slice(8,10))+' '+MONTHS[+S.cd.slice(5,7)-1]+(S.cd===today?" (النهارده)":"")+'</h2><div class="rcards2">';
+  if(!L.length)h+='<p class="muted">مفيش مواعيد في اليوم ده.</p>';
+  L.forEach(function(e){h+=calCard(e,ceo);});
+  h+='</div>';
+  var late=[];Object.keys(ev).sort().forEach(function(k){if(k<today)ev[k].forEach(function(x){if(x.c&&(x.r.status==="جديد"||x.r.status==="قيد التواصل"))late.push({k:k,e:x});});});
+  if(late.length){
+    h+='<h2 class="cal-t">حجوزات فاتت من غير متابعة</h2><div class="rcards2">';
+    late.forEach(function(x){h+='<div class="late"><span class="muted" dir="ltr">'+esc(x.k)+'</span>'+calCard(x.e,ceo)+'</div>';});
+    h+='</div>';
+  }
+  return h;
+}
+
 var IMP_KEY="fn-ceo-sess";
 function impOn(){try{return !!sessionStorage.getItem(IMP_KEY);}catch(e){return false;}}
 function impBar(){return impOn()&&S.profile?'<div class="alertbar"><span>👤 إنت داخل بحساب الموظف: '+esc(S.profile.full_name||S.profile.email)+'</span><button class="btn sm primary" type="button" data-act="back">↩ رجوع لحسابي (CEO)</button></div>':"";}
@@ -1127,7 +1219,7 @@ function workView(){
 
 function appView(){
   var b="",role=S.profile.role;
-  switch(S.tab){case "analytics":b=analyticsView();break;case "requests":b=requestsView();break;case "access":b=accessView();break;case "perms":b=permsView();break;case "jobs":b=jobsView();break;case "activity":b=activityView();break;case "trash":b=trashView();break;case "tools":b=toolsView();break;case "backup":b=backupView();break;case "work":b=workView();break;}
+  switch(S.tab){case "analytics":b=analyticsView();break;case "requests":b=requestsView();break;case "calendar":b=calView();break;case "access":b=accessView();break;case "perms":b=permsView();break;case "jobs":b=jobsView();break;case "activity":b=activityView();break;case "trash":b=trashView();break;case "tools":b=toolsView();break;case "backup":b=backupView();break;case "work":b=workView();break;}
   var intro=role==="ceo"?['مركز قيادة Fnbora','نظرة شاملة على الطلبات والتشغيل والموظفين.']:role==="manager"?['إدارة الطلبات والتشغيل','استقبل الطلبات، راجع التفاصيل، ووزّع المهام وتابع التنفيذ.']:['مهامي الميدانية','هنا تظهر لك مواقع العمل وأنواع المهام المسندة إليك فقط.'];
   var today=new Date().toLocaleDateString('ar-EG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   return '<div class="wrap">'+topbar()+'<section class="workspace-intro"><div><h1>'+intro[0]+'</h1><p>'+intro[1]+'</p></div><div class="workspace-date">'+esc(today)+'</div></section>'+impBar()+alertView()+tabsView()+msgView()+b+'</div>';
@@ -1194,6 +1286,9 @@ app.addEventListener("click",function(e){
     act(rpc("ceo_review_access_request",{p_user_id:id,p_approved:ok,p_role:role}).then(function(){setMsg("ok",ok?"تم قبول الحساب.":"تم رفض الطلب.");}));
   }
   if(a==="fs"){if(t.getAttribute("data-k")==="req")S.fs=t.getAttribute("data-v");else S.jfs=t.getAttribute("data-v");render();}
+  if(a==="calday"){S.cd=t.getAttribute("data-d");render();return;}
+  if(a==="calnav"){S.cm=t.getAttribute("data-m");render();return;}
+  if(a==="caltoday"){S.cm=null;S.cd=null;render();return;}
   if(a==="xls")exportExcel();
   if(a==="file")openFile(+id);
   if(a==="alertgo"){var tg=S.alert?S.alert.tab:"requests";S.alert=null;setTitle(0);S.tab=tg;loadTab();}
